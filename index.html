@@ -1,24 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Bind your app to your html element -->
+<html lang="en" ng-app="myApp">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>D3 Demo</title>
 
-		<!-- Libraries -->
+		<!-- Angular libraries and dependencies (jQuery, for Bootstrap.js) -->
 		<script src="https://code.jquery.com/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap.js"></script>
+		<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+
+		<!-- CSS -->
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script src="http://d3js.org/d3.v3.min.js"></script>
-
-		<!-- Custom files -->
-		<script src="js/data.js"></script>
 		<link rel="stylesheet" href="css/main.css"/>
+	
+		<!-- D3 library -->
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		
+		<!-- JavaScript files (including data in data.js) -->
+		<script src="js/data.js"></script>
+		<script src="js/main.js"></script>
+		
 	</head>
-	<body>
-		<div id="vis"></div>
-	</body>
+	<h1>Life expectancy comparison</h1>
 
-	<!-- your script file -->
-	<script src="js/main.js"></script>
+	<!-- Bind controller to your body -->
+	<body ng-controller="myCtrl">
+
+		<!-- Container for your elements -->
+		<div class="container" id="vis">
+			<input placeholder="search country or region" class="form-control" ng-model="search" />	
+
+			<!-- This is where your chart goes! -->
+			<scatter data="data" search="search"></scatter>
+		</div>
+	</body>	
 </html>
