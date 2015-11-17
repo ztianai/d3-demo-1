@@ -2,7 +2,7 @@
 	The variable "data" is accessible to you, as you read it in from data.js
 */
 
-// Create app
+// Create app myApp with dependency 'ui.bootstrap'
 var myApp = angular.module('myApp', ['ui.bootstrap'])
 
 // Bind controller and set $scope.data as your data variable
@@ -16,19 +16,19 @@ myApp.controller('myCtrl', function($scope){
 	return {
 		restrict:'E', // this directive is specified as an html element <scatter>
 
-		// Defined variables that you want to pass into your directive scope
+		// Define variables 'data' and 'search' as part of scope directive scope
 		scope:{
 			data:'=',
 			search:'='
 		},
 
-		// Create a link function that does something
+		// Create a link function that allows dynamic element creation
 
 		link:function(scope,elem,attrs){
 			// Wrapper element to put your svg (chart) in
 			wrapper = d3.select(elem[0]);			
 
-			// Watch for changes to your 'search' variable, and redraw your chart
+			// Use the scope.$watch method to watch for changes to 'search', and executes your draw function
 			scope.$watch('search', function() {				
 				draw();
 			});	
@@ -79,7 +79,10 @@ myApp.controller('myCtrl', function($scope){
 				circle.attr('r', 10)
 					.attr('fill', 'blue')
 					.attr('cx', function(d) { return xScale(d.le_1960)})
-					.attr('cy', function(d) { return yScale(d.le_2013)})					
+					.attr('cy', function(d) { return yScale(d.le_2013)})
+
+					// Add a tooltip-append-to-body attribute, set it to true
+					// Add a tooltip property that has the content you want in your tooltip					
 					.attr("tooltip-append-to-body", true)
                     .attr("tooltip", function(d){
                         return d.country;
