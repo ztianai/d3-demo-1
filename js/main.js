@@ -26,12 +26,23 @@ $(function() {
 			.attr('height', height)
 			.attr('width', width)
 
+	var xScale;
+	var yScale
 	// Write a function to set your scales
 	var setScales = function() {
 		// xScale
-		
+		var xMin = d3.min(data, function(d) {return d.le_1960})
+		var xMax = d3.max(data, function(d) {return d.le_1960})
+		xScale = d3.scale.linear()
+					.domain([xMin, xMax])
+					.range([0, width])
 
-		// yScale		
+		// yScale	
+		var yMin = d3.min(data, function(d) {return d.le_2013})
+		var yMax = d3.max(data, function(d) {return d.le_2013})
+		yScale = d3.scale.linear()
+					.domain([yMax, yMin])
+					.range([0, height])		
 	}
 
 	/* Write a function to define the positioning of your circles
@@ -40,34 +51,41 @@ $(function() {
 		- title attribute as the country of the object
 	*/
 	var circleFunc = function(circle) {
-		
-
-
+		circle.attr('cx', function(d) {return xScale(d.le_1960)})
+				.attr('cy', function(d) {return yScale(d.le_2013)})
+			//  .attr('cy', function(d) {return yScale(d.le_2013)})
+			  .attr('title', function(d) {return d.country})
+			  .attr('r', 10)
+			  .attr('fill', 'blue')
+			  .style(opacity, 0.3)
 	}
 
 	// Write a reusable drawing function for circles
 	var draw = function(data) {
 		// Set Scales
+		setScales()
 		
 		
 		// Select all circles and bind your data to them
-		
+		var circles = svg.selectAll('circle').data(data, function(d) {return d.country})
 	
 		// Use the .enter() method to get your entering elements, and then position them using your positioning function
-    	
+    	circles.enter()
+    	.append('circle')
+    	.call(circleFunc)
 	
   
 	    // Use the .exit() and .remove() methods to remove elements that are no longer in the data
-		
+		circles.exit().remove()
 	  
 	    // Select all circle elements within your g and transition their position using your positioning function
-		
+		svg.selectAll('circle0').transition().duration(500).call(circleFunc)
 
 	
 	}
 
 	// Pass data to your drawing function
-	
+	draw(data)
 
 	// Define x axis using d3.svg.axis(), assigning the scale as the xScale
 	
